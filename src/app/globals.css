@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f5f5f5;
+  --foreground: #222;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #f5f5f5;
+    --foreground: #222;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.gymbeam-logo {
+  height: 40px;
+  width: auto;
+}
+
+body.high-contrast {
+  background: #000 !important;
+  color: #fff !important;
+}
+body.high-contrast input,
+body.high-contrast textarea,
+body.high-contrast select {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+body.high-contrast .bg-white {
+  background: #222 !important;
+}
+body.high-contrast .text-black {
+  color: #fff !important;
+}
+body.high-contrast .text-gray-500,
+body.high-contrast .text-gray-700 {
+  color: #fff !important;
+}
+body.high-contrast .border-black {
+  border-color: #fff !important;
+}
+body.high-contrast .bg-gray-400 {
+  background: #222 !important;
+}
+body.high-contrast .bg-orange-500 {
+  background: #ff6600 !important;
+}
+body.high-contrast .hover\:bg-orange-500:hover {
+  background: #ff6600 !important;
+}
