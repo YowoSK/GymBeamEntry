@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+"use client";
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "../../components/AuthProvider";
@@ -6,6 +7,7 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import BannerSliderClient from "../../components/BannerSliderClient";
 import HomeBenefits from "../../components/HomeBenefits";
+import { useEffect, useState } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,36 +19,31 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "GymBeam",
-  description: "GymBeam app",
-};
-
-function isLoginPath() {
-  if (typeof window !== "undefined") {
-    return window.location.pathname === "/login";
-  }
-  if (typeof global !== "undefined" && global.location) {
-    return global.location.pathname === "/login";
-  }
-  return false;
-}
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Zistí, či je používateľ prihlásený (len na klientovi)
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsLoggedIn(!!localStorage.getItem("user"));
+      const handler = () => setIsLoggedIn(!!localStorage.getItem("user"));
+      window.addEventListener("login-status-change", handler);
+      return () => window.removeEventListener("login-status-change", handler);
+    }
+  }, []);
+
+  // Skryje navigáciu, slider, benefity a footer ak nie je prihlásený
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Navbar />
-        <BannerSliderClient />
-        <HomeBenefits />
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        {isLoggedIn && <Navbar />}
+        {isLoggedIn && <BannerSliderClient />}
+        {isLoggedIn && <HomeBenefits />}
         <AuthProvider>{children}</AuthProvider>
-        <Footer />
+        {isLoggedIn && <Footer />}
       </body>
     </html>
   );
