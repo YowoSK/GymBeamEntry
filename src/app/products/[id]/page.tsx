@@ -216,69 +216,51 @@ export default function ProductDetailPage() {
                   <div className="min-w-fit">
                     <div className="text-left">
                       <div className="flex flex-col">
-                        <label className="text-gray-700 text-sm">Balenie (g)<span className="ml-1 text-red-500">*</span></label>
-                        <div className="relative mt-1">
-                          <select className="h-field px-3 transition rounded-none focus:rounded-none focus:shadow-md focus:shadow-gray-200 disabled:cursor-not-allowed disabled:opacity-50 outline-none border-2 border-black mt-1 min-h-[28px] w-full appearance-none bg-white bg-no-repeat pr-[2em] text-sm">
-                            <option value="2311">100 g</option>
-                            <option value="5779">20 x 100 g</option>
-                          </select>
+                        {/* Options */}
+                        <div className="flex flex-col sm:flex-row gap-4 mb-2">
+                          {/* Show options based on product category/title */}
+                          {product.category === "men's clothing" || product.category === "women's clothing" ? (
+                            <div>
+                              <label className="block text-xs text-gray-600 mb-1">Veľkosť*</label>
+                              <select className="px-2 py-1 text-sm outline-none focus:ring-2 focus:ring-orange-500" style={{ borderRadius: 0, border: 0 }}>
+                                <option>M</option>
+                                <option>L</option>
+                                <option>XL</option>
+                              </select>
+                            </div>
+                          ) : null}
+                          {product.category === "jewelery" ? (
+                            <div>
+                              <label className="block text-xs text-gray-600 mb-1">Farba*</label>
+                              <select className="px-2 py-1 text-sm outline-none focus:ring-2 focus:ring-orange-500" style={{ borderRadius: 0, border: 0 }}>
+                                <option>Zlatá</option>
+                                <option>Strieborná</option>
+                                <option>Ružová</option>
+                              </select>
+                            </div>
+                          ) : null}
+                          {product.category === "electronics" ? (
+                            <div>
+                              <label className="block text-xs text-gray-600 mb-1">Kapacita*</label>
+                              <select className="px-2 py-1 text-sm outline-none focus:ring-2 focus:ring-orange-500" style={{ borderRadius: 0, border: 0 }}>
+                                <option>256 GB</option>
+                                <option>1 TB</option>
+                                <option>2 TB</option>
+                                <option>4 TB</option>
+                              </select>
+                            </div>
+                          ) : null}
+                          {/* Quantity always shown */}
+                          <div>
+                            <label className="block text-xs text-gray-600 mb-1">Množstvo</label>
+                            <div className="flex items-center gap-2 border border-black" style={{ borderRadius: 0 }}>
+                              <button type="button" className="px-2 py-1 text-lg outline-none focus:ring-2 focus:ring-orange-500 border-r border-black" style={{ borderRadius: 0, borderTop: 0, borderBottom: 0, borderLeft: 0 }} onClick={() => setQuantity(q => Math.max(1, q - 1))}>-</button>
+                              <input type="number" min={1} value={quantity} onChange={e => setQuantity(Math.max(1, Number(e.target.value)))} className="w-12 text-center py-1 outline-none focus:ring-2 focus:ring-orange-500 border-x-0 border-t-0 border-b-0" style={{ borderRadius: 0, border: 0 }} />
+                              <button type="button" className="px-2 py-1 text-lg outline-none focus:ring-2 focus:ring-orange-500 border-l border-black" style={{ borderRadius: 0, borderTop: 0, borderBottom: 0, borderRight: 0 }} onClick={() => setQuantity(q => q + 1)}>+</button>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div className="min-w-fit">
-                    <div className="text-left">
-                      <div className="flex flex-col">
-                        <label className="text-gray-700 text-sm">Príchuť<span className="ml-1 text-red-500">*</span></label>
-                        <div className="relative mt-1">
-                          <select className="h-field px-3 transition rounded-none focus:rounded-none focus:shadow-md focus:shadow-gray-200 disabled:cursor-not-allowed disabled:opacity-50 outline-none border-2 border-black mt-1 min-h-[28px] w-full appearance-none bg-white bg-no-repeat pr-[2em] text-sm">
-                            <option value="3757">arašidové maslo čokoláda</option>
-                            <option value="171652">arašidové maslo a slaný karamel</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex min-w-fit flex-col items-start justify-between gap-1">
-                    <div className="md:invisible">
-                      <label htmlFor="quantity-input" className="mb-1 whitespace-nowrap text-sm">Množstvo</label>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <button
-                        className="text-white leading-normal items-center justify-center transition-colors duration-500 ease-in-out bg-none hover:bg-transparent w-8 font-semibold h-7"
-                        tabIndex={0}
-                        aria-label="Množstvo minus"
-                        onClick={() => setQuantity(q => Math.max(1, q - 1))}
-                      >
-                        <div className="flex flex-1 items-center justify-center space-x-2">
-                          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="20px" height="20px"><path d="M0 11h28v6H0z"></path></svg>
-                        </div>
-                      </button>
-                      <input
-                        className="h-field text-sm leading-7 w-full transition rounded-none hover:border-[#757779] focus:rounded-none focus:shadow-md focus:shadow-gray-200 disabled:cursor-not-allowed disabled:opacity-50 outline-none border-2 border-black p-0 text-center"
-                        id="quantity-input"
-                        step={1}
-                        min={1}
-                        max={20000}
-                        aria-label="Množstvo"
-                        inputMode="decimal"
-                        pattern="[0-9]*"
-                        data-test="quantity-input"
-                        autoComplete="off"
-                        type="number"
-                        value={quantity}
-                        onChange={e => setQuantity(Math.max(1, Number(e.target.value)))}
-                      />
-                      <button
-                        className="text-white leading-normal items-center justify-center transition-colors duration-500 ease-in-out bg-none hover:bg-transparent w-8 font-semibold h-7"
-                        tabIndex={0}
-                        aria-label="Množstvo plus"
-                        onClick={() => setQuantity(q => q + 1)}
-                      >
-                        <div className="flex flex-1 items-center justify-center space-x-2">
-                          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="20px" height="20px"><path d="M10 0h7v28h-7z"></path><path d="M0 11h28v6H0z"></path></svg>
-                        </div>
-                      </button>
                     </div>
                   </div>
                 </div>
